@@ -28,8 +28,7 @@ def update_boids(boids):
     # Fly towards the middle
     for i in range(len(xs)):
         xvs[i] = xvs[i] + (np.mean(xs) - xs[i]) * 0.01
-        for j in range(len(xs)):
-            yvs[i] = yvs[i] + (ys[j] - ys[i]) * 0.01 / len(xs)
+        yvs[i] = yvs[i] + (np.mean(ys) - ys[i]) * 0.01
     # Fly away from nearby boids
     for i in range(len(xs)):
         for j in range(len(xs)):
