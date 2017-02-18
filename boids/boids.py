@@ -11,8 +11,8 @@ import random
 # Deliberately terrible code for teaching purposes
 
 boid_count = 50
-
-boids_x = np.random.uniform(-450, 50.0, boid_count)
+x_positions = [-450, 50.0]
+boids_x = np.random.uniform(size=boid_count,*x_positions)
 boids_y = np.random.uniform(300.0, 600.0, boid_count)
 boid_x_velocities = np.random.uniform(0, 10.0, boid_count)
 boid_y_velocities = np.random.uniform(-20.0, 20.0, boid_count)
