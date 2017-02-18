@@ -29,8 +29,6 @@ def update_boids(boids):
     for i in range(len(xs)):
         for j in range(len(xs)):
             xvs[i] = xvs[i] + (xs[j] - xs[i]) * 0.01 / len(xs)
-    for i in range(len(xs)):
-        for j in range(len(xs)):
             yvs[i] = yvs[i] + (ys[j] - ys[i]) * 0.01 / len(xs)
     # Fly away from nearby boids
     for i in range(len(xs)):
