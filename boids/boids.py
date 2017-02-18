@@ -5,13 +5,15 @@ for use as an exercise on refactoring.
 
 from matplotlib import pyplot as plt
 from matplotlib import animation
+import numpy as np
 import random
 
 # Deliberately terrible code for teaching purposes
 
 boid_count = 50
 
-boids_x = [random.uniform(-450, 50.0) for x in range(boid_count)]
+#boids_x = [random.uniform(-450, 50.0) for x in range(boid_count)]
+boids_x = np.random.uniform(-450, 50.0,boid_count)
 boids_y = [random.uniform(300.0, 600.0) for x in range(boid_count)]
 boid_x_velocities = [random.uniform(0, 10.0) for x in range(boid_count)]
 boid_y_velocities = [random.uniform(-20.0, 20.0) for x in range(boid_count)]
