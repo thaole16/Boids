@@ -28,9 +28,9 @@ def update_boids(boids):
     move_to_middle_strength = 0.01
     # Fly towards the middle
     x_move_to_middle = (np.mean(xs) - xs) * move_to_middle_strength
-    for i in range(len(xs)):
-        xvs[i] = xvs[i] + x_move_to_middle[i]
-        yvs[i] = yvs[i] + (np.mean(ys) - ys[i]) * move_to_middle_strength
+    y_move_to_middle = (np.mean(ys) - ys) * move_to_middle_strength
+    xvs[:] = np.add(xvs,x_move_to_middle)
+    yvs[:] = np.add(yvs, y_move_to_middle)
     # Fly away from nearby boids
     for i in range(len(xs)):
         for j in range(len(xs)):
