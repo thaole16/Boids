@@ -27,6 +27,7 @@ def update_boids(boids):
     xs, ys, xvs, yvs = boids
     move_to_middle_strength = 0.01
     alert_distance = 100
+    formation_flying_distance =  10000
     # Fly towards the middle
     x_move_to_middle = (np.mean(xs) - xs) * move_to_middle_strength
     y_move_to_middle = (np.mean(ys) - ys) * move_to_middle_strength
@@ -44,7 +45,7 @@ def update_boids(boids):
     # Try to match speed with nearby boids
     for i in range(len(xs)):
         for j in range(len(xs)):
-            if separation_distance_squared[i,j] < 10000:
+            if separation_distance_squared[i,j] < formation_flying_distance:
                 xvs[i] = xvs[i] + (xvs[j] - xvs[i]) * 0.125 / len(xs)
                 yvs[i] = yvs[i] + (yvs[j] - yvs[i]) * 0.125 / len(xs)
     # Move according to velocities
