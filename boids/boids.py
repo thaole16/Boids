@@ -44,9 +44,8 @@ def update_boids(boids):
                 xvs[i] = xvs[i] + (xvs[j] - xvs[i]) * 0.125 / len(xs)
                 yvs[i] = yvs[i] + (yvs[j] - yvs[i]) * 0.125 / len(xs)
     # Move according to velocities
-    for i in range(len(xs)):
-        xs[i] = xs[i] + xvs[i]
-        ys[i] = ys[i] + yvs[i]
+    xs[:] = np.add(xs, xvs)
+    ys[:] = np.add(ys, yvs)
 
 
 figure = plt.figure()
