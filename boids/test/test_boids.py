@@ -6,7 +6,7 @@ import numpy as np
 from mock import patch, Mock
 
 def test_bad_boids_regression():
-    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture.yml')))
+    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture.yml')))
     boid_data=np.array(regression_data["before"])
     Boids().update_boids(boid_data)
     for after,before in zip(regression_data["after"],boid_data):
@@ -30,7 +30,7 @@ def test_Boids():
         boidobject = Boids(boid_count = -2)
 
 def test_fly_towards_the_middle():
-    data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_fly_towards_the_middle.yml')))
+    data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_fly_towards_the_middle.yml')))
     boid_data_before=np.array(data["before"])
     boid_data_after = np.array(data["after"])
     move_to_middle_strength = data["move_to_middle_strength"]
@@ -42,7 +42,7 @@ def test_fly_towards_the_middle():
     np.testing.assert_array_almost_equal(boids.boids,boid_data_after)
 
 def test_separation():
-    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_separation.yml')))
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_separation.yml')))
     xcoords = np.array(data["xcoords"])
     ycoords = np.array(data["ycoords"])
     x_separation = np.array(data["x_separation"])
@@ -56,7 +56,7 @@ def test_separation():
     np.testing.assert_array_almost_equal(boids. separation_distance_squared,  separation_distance_squared)
 
 def test_fly_away_from_nearby_boids():
-    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_fly_away_from_nearby_boids.yml')))
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_fly_away_from_nearby_boids.yml')))
     boid_data_before = np.array(data["before"])
     boid_data_after = np.array(data["after"])
     alert_distance = data["alert_distance"]
@@ -69,7 +69,7 @@ def test_fly_away_from_nearby_boids():
     np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
 
 def test_match_speed_with_nearby_boids():
-    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_match_speed_with_nearby_boids.yml')))
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_match_speed_with_nearby_boids.yml')))
     boid_data_before = np.array(data["before"])
     boid_data_after = np.array(data["after"])
     formation_flying_distance = data["formation_flying_distance"]
@@ -82,7 +82,7 @@ def test_match_speed_with_nearby_boids():
     np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
 
 def test_update_boids():
-    data = yaml.load(open(os.path.join(os.path.dirname(__file__), 'fixture_update_boids_only.yml')))
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures', 'fixture_update_boids_only.yml')))
     boid_data_before = np.array(data["before"])
     boid_data_after = np.array(data["after"])
     boid_count = data["boid_count"]
