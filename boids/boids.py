@@ -68,15 +68,16 @@ class Boids(object):
 
     def animate(self,frame):
         self.update_boids(self.boids)
-        scatter.set_offsets(zip(self.boids[0], self.boids[1]))
+        self.scatter.set_offsets(zip(self.boids[0], self.boids[1]))
 
-boidsobject = Boids()
-figure = plt.figure()
-axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
-scatter = axes.scatter(boidsobject.boids[0], boidsobject.boids[1])
-anim = animation.FuncAnimation(figure, boidsobject.animate,
-                                   frames=50, interval=50)
+    def model(self):
+        figure = plt.figure()
+        axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
+        self.scatter = axes.scatter(boidsobject.boids[0], boidsobject.boids[1])
+        anim = animation.FuncAnimation(figure, boidsobject.animate,
+                                       frames=50, interval=50)
+        plt.show()
 
 if __name__ == "__main__":
-
-    plt.show()
+    boidsobject = Boids()
+    boidsobject.model()
