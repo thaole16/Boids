@@ -97,12 +97,12 @@ class Boids(object):
         self.update_boids(self.boids)
         self.scatter.set_offsets(zip(self.boids_x, self.boids_y))
 
-    def model(self):
+    def model(self, xlim=(-500, 1500), ylim=(-500, 1500), frames=50, interval=50):
         figure = plt.figure()
-        axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
+        axes = plt.axes(xlim=xlim, ylim=ylim)
         self.scatter = axes.scatter(self.boids_x, self.boids_y)
         anim = animation.FuncAnimation(figure, self.animate,
-                                       frames=50, interval=50)
+                                       frames=frames, interval=interval)
         plt.show()
 
 if __name__ == "__main__":
