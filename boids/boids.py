@@ -31,11 +31,11 @@ class Boids(object):
         self.boid_y_velocities = np.random.uniform(size=boid_count, *y_velocities)
         self.boids = (self.boids_x, self.boids_y, self.boid_x_velocities, self.boid_y_velocities)
 
-    def fly_towards_the_middle(self,boids):
+    def fly_towards_the_middle(self,boids,move_to_middle_strength):
         xs, ys, xvs, yvs = boids
         # Fly towards the middle
-        x_move_to_middle = (np.mean(xs) - xs) * self.move_to_middle_strength
-        y_move_to_middle = (np.mean(ys) - ys) * self.move_to_middle_strength
+        x_move_to_middle = (np.mean(xs) - xs) * move_to_middle_strength
+        y_move_to_middle = (np.mean(ys) - ys) * move_to_middle_strength
         xvs[:] = np.add(xvs, x_move_to_middle)
         yvs[:] = np.add(yvs, y_move_to_middle)
 
@@ -70,7 +70,7 @@ class Boids(object):
     def update_boids(self, boids):
         xs, ys, xvs, yvs = boids
         # Fly towards the middle
-        self.fly_towards_the_middle(boids)
+        self.fly_towards_the_middle(boids,self.move_to_middle_strength)
 
         #calculate the separations
         self.separation(boids)
