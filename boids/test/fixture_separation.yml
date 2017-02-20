@@ -1,0 +1,11 @@
+xcoords: [0, 1]
+ycoords: [0, 1]
+x_separation:
+- [0, 1]
+- [-1, 0]
+y_separation:
+- [0, 1]
+- [-1, 0]
+separation_distance_squared:
+- [0, 2]
+- [2, 0]

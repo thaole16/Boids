@@ -39,3 +39,17 @@ def test_fly_towards_the_middle():
     boids.fly_towards_the_middle(boid_data_before, move_to_middle_strength)
 
     np.testing.assert_array_almost_equal(boids.boids,boid_data_after)
+
+def test_separation():
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_separation.yml')))
+    xcoords = np.array(data["xcoords"])
+    ycoords = np.array(data["ycoords"])
+    x_separation = np.array(data["x_separation"])
+    y_separation = np.array(data["y_separation"])
+    separation_distance_squared = np.array(data["separation_distance_squared"])
+    boids = Boids(boid_count = 2)
+    boids.separation(xcoords, ycoords)
+
+    np.testing.assert_array_almost_equal(boids.x_separation,x_separation)
+    np.testing.assert_array_almost_equal(boids.y_separation, y_separation)
+    np.testing.assert_array_almost_equal(boids. separation_distance_squared,  separation_distance_squared)
