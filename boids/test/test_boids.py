@@ -1,5 +1,5 @@
 from boids import Boids, update_boids
-from nose.tools import assert_almost_equal,assert_equals
+from nose.tools import assert_almost_equal,assert_equals, assert_raises
 import os
 import yaml
 import numpy as np
@@ -18,3 +18,12 @@ def test_Boids():
     assert_equals(boidobject.boids_y.size, 50)
     assert_equals(boidobject.boid_x_velocities.size, 50)
     assert_equals(boidobject.boid_y_velocities.size, 50)
+
+    boidobject = Boids(boid_count = 2)
+    assert_equals(boidobject.boids_x.size, 2)
+    assert_equals(boidobject.boids_y.size, 2)
+    assert_equals(boidobject.boid_x_velocities.size, 2)
+    assert_equals(boidobject.boid_y_velocities.size, 2)
+
+    with assert_raises(ValueError):
+        boidobject = Boids(boid_count = -2)
