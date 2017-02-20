@@ -35,10 +35,11 @@ def update_boids(boids):
     xvs[:] = np.add(xvs,x_move_to_middle)
     yvs[:] = np.add(yvs,y_move_to_middle)
 
-    # Fly away from nearby boids
     x_separation = xs[np.newaxis, :] - xs[:, np.newaxis]
     y_separation = ys[np.newaxis, :] - ys[:, np.newaxis]
-    separation_distance_squared = x_separation**2 + y_separation**2
+    separation_distance_squared = x_separation ** 2 + y_separation ** 2
+
+    # Fly away from nearby boids
     birds_outside_alert = separation_distance_squared > alert_distance
     close_x_separations = np.copy(x_separation)
     close_x_separations[:,:][birds_outside_alert] = 0
@@ -49,12 +50,16 @@ def update_boids(boids):
 
     # Try to match speed with nearby boids
     birds_outside_formation = separation_distance_squared > formation_flying_distance
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            if separation_distance_squared[i,j] < formation_flying_distance:
-                xvs[i] = xvs[i] + (xvs[j] - xvs[i]) * formation_flying_strength / len(xs)
-                yvs[i] = yvs[i] + (yvs[j] - yvs[i]) * formation_flying_strength / len(xs)
-    # Move according to velocities
+    x_velocity_difference = xvs[np.newaxis,:] - xvs[:,np.newaxis]
+    y_velocity_difference = yvs[np.newaxis,:] - yvs[:, np.newaxis]
+    close_x_formation = np.copy(x_velocity_difference)
+    close_y_formation = np.copy(y_velocity_difference)
+    close_x_formation[:,:][birds_outside_formation]=0
+    close_y_formation[:,:][birds_outside_formation]=0
+    xvs[:] = np.add(xvs, -1*np.mean(close_x_formation,0)*formation_flying_strength)
+    yvs[:] = np.add(yvs, -1 * np.mean(close_y_formation, 0) * formation_flying_strength)
+
+    #Update positions
     xs[:] = np.add(xs, xvs)
     ys[:] = np.add(ys, yvs)
 
