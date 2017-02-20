@@ -3,6 +3,7 @@ from nose.tools import assert_almost_equal,assert_equals, assert_raises
 import os
 import yaml
 import numpy as np
+from mock import patch, Mock
 
 def test_bad_boids_regression():
     regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture.yml')))
@@ -79,3 +80,16 @@ def test_match_speed_with_nearby_boids():
     boids.boids = boid_data_before
     boids.match_speed_with_nearby_boids(boids.boids, separation_distance_squared,formation_flying_distance,formation_flying_strength)
     np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
+
+def test_update_boids():
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__), 'fixture_update_boids_only.yml')))
+    boid_data_before = np.array(data["before"])
+    boid_data_after = np.array(data["after"])
+    boid_count = data["boid_count"]
+    boids = Boids(boid_count = boid_count)
+    boids.boids = boid_data_before
+    with patch.object(boids,'fly_towards_the_middle') as mocked1:
+        with patch.object(boids, 'fly_away_from_nearby_boids') as mocked2:
+            with patch.object(boids,'match_speed_with_nearby_boids') as mocked3:
+                boids.update_boids(boids.boids)
+                np.testing.assert_almost_equal(boids.boids, boid_data_after)
