@@ -44,9 +44,9 @@ class Boids(object):
         self.y_separation = ycoords[np.newaxis, :] - ycoords[:, np.newaxis]
         self.separation_distance_squared = self.x_separation ** 2 + self.y_separation ** 2
 
-    def fly_away_from_nearby_boids(self,boids):
+    def fly_away_from_nearby_boids(self,boids,alert_distance=100):
         xs, ys, xvs, yvs = boids
-        birds_outside_alert = self.separation_distance_squared > self.alert_distance
+        birds_outside_alert = self.separation_distance_squared > alert_distance
         close_x_separations = np.copy(self.x_separation)
         close_x_separations[:, :][birds_outside_alert] = 0
         xvs[:] = np.add(xvs, np.sum(close_x_separations, 0))
@@ -75,7 +75,7 @@ class Boids(object):
         self.separation(xs,ys)
 
         # Fly away from nearby boids
-        self.fly_away_from_nearby_boids(boids)
+        self.fly_away_from_nearby_boids(boids,self.alert_distance)
 
         # Try to match speed with nearby boids
         self.match_speed_with_nearby_boids(boids)
