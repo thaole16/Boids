@@ -66,3 +66,16 @@ def test_fly_away_from_nearby_boids():
     boids.fly_away_from_nearby_boids(boids.boids, boids.x_separation, boids.y_separation,
                                      boids.separation_distance_squared, alert_distance)
     np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
+
+def test_match_speed_with_nearby_boids():
+    data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_match_speed_with_nearby_boids.yml')))
+    boid_data_before = np.array(data["before"])
+    boid_data_after = np.array(data["after"])
+    formation_flying_distance = data["formation_flying_distance"]
+    formation_flying_strength = data["formation_flying_strength"]
+    separation_distance_squared = np.array(data["separation_distance_squared"])
+
+    boids = Boids()
+    boids.boids = boid_data_before
+    boids.match_speed_with_nearby_boids(boids.boids, separation_distance_squared,formation_flying_distance,formation_flying_strength)
+    np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
