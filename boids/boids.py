@@ -6,11 +6,6 @@ for use as an exercise on refactoring.
 from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
-import random
-
-# Deliberately terrible code for teaching purposes
-
-
 
 class Boids(object):
 
