@@ -15,9 +15,9 @@ setup(
 
     packages=find_packages(exclude=['*test','docs']),
 
-    entry_points={'console_scripts': ['boidsflock=boids.main']},
+    entry_points={'console_scripts': ['boidsflock=boids:main']},
 
-    install_requires=['argparse','numpy','matplotlib','nose.tools','os','yaml','mock'],
+    install_requires=['argparse','numpy','matplotlib','nose','pyyaml','mock'],
 
     license="MIT",
 
