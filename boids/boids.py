@@ -31,7 +31,7 @@ class Boids(object):
         self.boid_y_velocities = np.random.uniform(size=boid_count, *y_velocities)
         self.boids = (self.boids_x, self.boids_y, self.boid_x_velocities, self.boid_y_velocities)
 
-    def fly_towards_the_middle(self,boids,move_to_middle_strength):
+    def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
         xs, ys, xvs, yvs = boids
         # Fly towards the middle
         x_move_to_middle = (np.mean(xs) - xs) * move_to_middle_strength
