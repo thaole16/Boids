@@ -39,26 +39,31 @@ class Boids(object):
         xvs[:] = np.add(xvs, x_move_to_middle)
         yvs[:] = np.add(yvs, y_move_to_middle)
 
+    def separation(self,boids):
+        xs, ys, xvs, yvs = boids
+        self.x_separation = xs[np.newaxis, :] - xs[:, np.newaxis]
+        self.y_separation = ys[np.newaxis, :] - ys[:, np.newaxis]
+        self.separation_distance_squared = self.x_separation ** 2 + self.y_separation ** 2
+
     def update_boids(self, boids):
         xs, ys, xvs, yvs = boids
         # Fly towards the middle
         self.fly_towards_the_middle(boids)
 
-        x_separation = xs[np.newaxis, :] - xs[:, np.newaxis]
-        y_separation = ys[np.newaxis, :] - ys[:, np.newaxis]
-        separation_distance_squared = x_separation ** 2 + y_separation ** 2
+        #calculate the separations
+        self.separation(boids)
 
         # Fly away from nearby boids
-        birds_outside_alert = separation_distance_squared > self.alert_distance
-        close_x_separations = np.copy(x_separation)
+        birds_outside_alert = self.separation_distance_squared > self.alert_distance
+        close_x_separations = np.copy(self.x_separation)
         close_x_separations[:, :][birds_outside_alert] = 0
         xvs[:] = np.add(xvs, np.sum(close_x_separations, 0))
-        close_y_separations = np.copy(y_separation)
+        close_y_separations = np.copy(self.y_separation)
         close_y_separations[:, :][birds_outside_alert] = 0
         yvs[:] = np.add(yvs, np.sum(close_y_separations, 0))
 
         # Try to match speed with nearby boids
-        birds_outside_formation = separation_distance_squared > self.formation_flying_distance
+        birds_outside_formation = self.separation_distance_squared > self.formation_flying_distance
         x_velocity_difference = xvs[np.newaxis, :] - xvs[:, np.newaxis]
         y_velocity_difference = yvs[np.newaxis, :] - yvs[:, np.newaxis]
         close_x_formation = np.copy(x_velocity_difference)
