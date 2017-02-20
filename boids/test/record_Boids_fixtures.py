@@ -25,3 +25,18 @@ fixture={"before":np.array(before).tolist(),
 fixture_file=open("fixture_fly_away_from_nearby_boids.yml",'w')
 fixture_file.write(yaml.dump(fixture))
 fixture_file.close()
+
+formation_flying_distance = 10000
+formation_flying_strength = 0.125
+before=deepcopy(boids.boids)
+boids.separation(before[0],before[1])
+boids.match_speed_with_nearby_boids(boids.boids, boids.separation_distance_squared,formation_flying_distance, formation_flying_strength )
+after= boids.boids
+fixture={"before":np.array(before).tolist(),
+         "after":np.array(after).tolist(),
+         "formation_flying_distance":formation_flying_distance,
+         "formation_flying_strength":formation_flying_strength,
+         "separation_distance_squared":np.array(boids.separation_distance_squared).tolist()}
+fixture_file=open("fixture_match_speed_with_nearby_boids.yml",'w')
+fixture_file.write(yaml.dump(fixture))
+fixture_file.close()
