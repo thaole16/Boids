@@ -10,18 +10,23 @@ import random
 
 # Deliberately terrible code for teaching purposes
 
-boid_count = 50
-x_positions = [-450, 50.0]
-y_positions = [300.0, 600.0]
-x_velocities = [0, 10.0]
-y_velocities = [-20.0, 20.0]
 
-boids_x = np.random.uniform(size=boid_count,*x_positions)
-boids_y = np.random.uniform(size=boid_count,*y_positions)
-boid_x_velocities = np.random.uniform(size=boid_count, *x_velocities)
-boid_y_velocities = np.random.uniform(size=boid_count, *y_velocities)
-boids = (boids_x, boids_y, boid_x_velocities, boid_y_velocities)
 
+class Boids(object):
+
+    def __init__(self,
+                 boid_count = 50,
+                 x_positions = [-450, 50.0],
+                 y_positions = [300.0, 600.0],
+                 x_velocities = [0, 10.0],
+                 y_velocities = [-20.0, 20.0] ):
+        self.boids_x = np.random.uniform(size=boid_count,*x_positions)
+        self.boids_y = np.random.uniform(size=boid_count,*y_positions)
+        self.boid_x_velocities = np.random.uniform(size=boid_count, *x_velocities)
+        self.boid_y_velocities = np.random.uniform(size=boid_count, *y_velocities)
+        self.boids = (self.boids_x, self.boids_y, self.boid_x_velocities, self.boid_y_velocities)
+
+boids = Boids().boids
 
 def update_boids(boids):
     xs, ys, xvs, yvs = boids
@@ -62,7 +67,6 @@ def update_boids(boids):
     #Update positions
     xs[:] = np.add(xs, xvs)
     ys[:] = np.add(ys, yvs)
-
 
 figure = plt.figure()
 axes = plt.axes(xlim=(-500, 1500), ylim=(-500, 1500))
