@@ -27,3 +27,12 @@ def test_Boids():
 
     with assert_raises(ValueError):
         boidobject = Boids(boid_count = -2)
+
+def test_fly_towards_middle():
+    data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixture_fly_towards_the_middle.yml')))
+    boid_data=np.array(data["before"])
+    move_to_middle_strength = data["move_to_middle_strength"]
+    Boids().fly_towards_the_middle(boid_data,move_to_middle_strength)
+    for after,before in zip(data["after"],boid_data):
+        for after_value,before_value in zip(after,before):
+            assert_almost_equal(after_value,before_value,delta=0.01)
