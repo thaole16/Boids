@@ -4,6 +4,10 @@
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
 
+# Generated from installs during development
 .idea
 build
 dist
+
+# Abbrieviated git log
+log.txt
