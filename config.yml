@@ -1,0 +1,17 @@
+Boids_Setup:
+  boid_count: 50
+  x_positions:[-450,50.0]
+  y_positions:[300.0,600.0]
+  x_velocities:[0, 10.0]
+  y_velocities:[-20.0, 20.0]
+Flock_Dynamics:
+  move_to_middle_strength: 0.01
+  alert_distance: 100
+  formation_flying_distance: 10000
+  formation_flying_strength: 0.125
+Axis_Limits:
+  xlim:[-500, 1500]
+  ylim:[-500, 1500]
+Animation:
+  frames:50
+  interval:50
