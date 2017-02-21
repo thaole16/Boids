@@ -17,7 +17,11 @@ setup(
 
     entry_points={'console_scripts': ['boidsflock=boids:main']},
 
-    install_requires=['argparse','numpy','matplotlib','nose','pyyaml','mock'],
+    install_requires=['argparse','numpy','matplotlib','pyyaml'],
+
+    test_requires = ['nose','mock'],
+
+    test_suite="nose.collector",
 
     license="MIT",
 
