@@ -1,18 +1,10 @@
 from boids import Boids
-from nose.tools import assert_almost_equal,assert_equals, assert_raises
+from nose.tools import assert_equals, assert_raises
 import os
 import yaml
 import numpy as np
-from mock import patch, Mock
+from mock import patch
 
-def test_bad_boids_regression():
-    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture.yml')))
-    boid_data=np.array(regression_data["before"])
-    Boids().update_boids(boid_data)
-    for after,before in zip(regression_data["after"],boid_data):
-        for after_value,before_value in zip(after,before): 
-            assert_almost_equal(after_value,before_value,delta=0.01)
-	
 def test_Boids():
     boidobject = Boids()
     assert_equals(boidobject.boids_x.size, 50)
