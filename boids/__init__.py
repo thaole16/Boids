@@ -8,6 +8,7 @@ def main():
     defaultconfig = os.path.join(_ROOT, 'config.yml')
     parser = ArgumentParser(description="Boid Flocking Modelling")
     parser.add_argument('--config', '-c', default=defaultconfig, help="Configuration file", metavar="FILE")
+    parser.add_argument('--saveto', '-c', help="Filename to save animation", metavar="FILE")
     args = parser.parse_args()
 
     try:
@@ -31,6 +32,9 @@ def main():
             frames = configdata['Animation']['frames']
             interval = configdata['Animation']['interval']
 
+            saveto = args.saveto #works even if it is None
+
+
             boidsobject = Boids(boid_count = boid_count,
                                 x_positions = x_positions,
                                 y_positions = y_positions,
@@ -43,7 +47,8 @@ def main():
             boidsobject.model(xlim=xlim,
                               ylim=ylim,
                               frames=frames,
-                              interval=interval)
+                              interval=interval,
+                              savefile = saveto)
     except IOError as error:
         print('IOError: No such config file')
     except KeyError as error:
