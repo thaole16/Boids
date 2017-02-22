@@ -39,14 +39,13 @@ class Boids(object):
     def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
         (positions, velocities) = boids
         middle = np.mean(positions,1)
+        move_to_middle = (middle[:,np.newaxis] - positions) * move_to_middle_strength
 
         (positions_x, positions_y) = np.split(positions, 2)
         (velocities_x, velocities_y) = np.split(velocities, 2)
-        # Fly towards the middle
-        x_move_to_middle = (middle[0] - positions_x) * move_to_middle_strength
-        y_move_to_middle = (middle[1] - positions_y) * move_to_middle_strength
-        velocities_x[:] = np.add(velocities_x, x_move_to_middle)
-        velocities_y[:] = np.add(velocities_y, y_move_to_middle)
+
+        velocities_x[:] = np.add(velocities_x, move_to_middle[0,:])
+        velocities_y[:] = np.add(velocities_y, move_to_middle[1,:])
 
     def separation(self,xcoords, ycoords):
         self.x_separation = xcoords[np.newaxis, :] - xcoords[:, np.newaxis]
