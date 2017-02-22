@@ -17,7 +17,7 @@ boids = Boids()
 before=deepcopy(boids.boids)
 boids.separation(before[0],before[1])
 alert_distance = 100
-boids.fly_away_from_nearby_boids(boids.boids,boids.x_separation, boids.y_separation, boids.separation_distance_squared,alert_distance)
+boids.fly_away_from_nearby_boids(boids.boids,alert_distance)
 after= boids.boids
 fixture={"before":np.array(before).tolist(),
          "after":np.array(after).tolist(),
@@ -30,13 +30,12 @@ formation_flying_distance = 10000
 formation_flying_strength = 0.125
 before=deepcopy(boids.boids)
 boids.separation(before[0],before[1])
-boids.match_speed_with_nearby_boids(boids.boids, boids.separation_distance_squared,formation_flying_distance, formation_flying_strength )
+boids.match_speed_with_nearby_boids(boids.boids, formation_flying_distance, formation_flying_strength )
 after= boids.boids
 fixture={"before":np.array(before).tolist(),
          "after":np.array(after).tolist(),
          "formation_flying_distance":formation_flying_distance,
-         "formation_flying_strength":formation_flying_strength,
-         "separation_distance_squared":np.array(boids.separation_distance_squared).tolist()}
+         "formation_flying_strength":formation_flying_strength}
 fixture_file=open("fixture_match_speed_with_nearby_boids.yml",'w')
 fixture_file.write(yaml.dump(fixture))
 fixture_file.close()
