@@ -1,17 +1,16 @@
 from boids import Boids
-from matplotlib import pyplot as plt
 from argparse import ArgumentParser
 import yaml
-import ConfigParser
 
 def main():
     parser = ArgumentParser(description="Boid Flocking Modelling")
-    parser.add_argument('--config', '-c', default='config.yml')
+    parser.add_argument('--config', '-c', default='config.yml', help="Configuration file", metavar="FILE")
     args = parser.parse_args()
 
     try:
         with open(args.config, 'r') as ymlfile:
             configdata = yaml.load(ymlfile)
+
             boid_count = configdata['Boids_Setup']['boid_count']
             x_positions = configdata['Boids_Setup']['x_positions']
             y_positions = configdata['Boids_Setup']['y_positions']
