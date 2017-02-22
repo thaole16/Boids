@@ -9,6 +9,6 @@ def test_bad_boids_regression():
     boid_data=np.array(regression_data["before"])
     Boids().update_boids((boid_data[0:2],boid_data[2:4]))
     after_data = np.array(regression_data["after"])
-    for after,before in zip(((after_data[0:2],after_data[2:4])),boid_data):
+    for after,before in zip(((after_data[0:2],after_data[2:4])),(boid_data[0:2],boid_data[2:4])):
         for after_value,before_value in zip(after,before):
-            assert_almost_equal(after_value,before_value,delta=0.01)
+            np.testing.assert_almost_equal(after_value,before_value)
