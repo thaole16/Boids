@@ -29,6 +29,7 @@ class Boids(object):
         self.boids_x = np.random.uniform(size=boid_count,*x_positions)
         self.boids_y = np.random.uniform(size=boid_count,*y_positions)
         self.positions = np.stack((self.boids_x,self.boids_y))
+
         self.boid_x_velocities = np.random.uniform(size=boid_count, *x_velocities)
         self.boid_y_velocities = np.random.uniform(size=boid_count, *y_velocities)
         self.velocities = np.stack((self.boid_x_velocities,self.boid_y_velocities))
@@ -37,11 +38,13 @@ class Boids(object):
 
     def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
         (positions, velocities) = boids
+        middle = np.mean(positions,1)
+
         (positions_x, positions_y) = np.split(positions, 2)
         (velocities_x, velocities_y) = np.split(velocities, 2)
         # Fly towards the middle
-        x_move_to_middle = (np.mean(positions_x) - positions_x) * move_to_middle_strength
-        y_move_to_middle = (np.mean(positions_y) - positions_y) * move_to_middle_strength
+        x_move_to_middle = (middle[0] - positions_x) * move_to_middle_strength
+        y_move_to_middle = (middle[1] - positions_y) * move_to_middle_strength
         velocities_x[:] = np.add(velocities_x, x_move_to_middle)
         velocities_y[:] = np.add(velocities_y, y_move_to_middle)
 
@@ -109,7 +112,6 @@ class Boids(object):
         self.update_boids(self.boids)
         (positions,velocities) = self.boids
         self.scatter.set_offsets(np.transpose(positions))
-        #self.scatter.set_offsets(zip(self.boids[0,0,:], self.boids[0,1,:]))
 
     def model(self, xlim=(-500, 1500), ylim=(-500, 1500), frames=50, interval=50):
         colors = np.random.rand(self.boid_count)
