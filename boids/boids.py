@@ -33,10 +33,10 @@ class Boids(object):
         self.boids = (self.boids_x, self.boids_y, self.boid_x_velocities, self.boid_y_velocities)
 
     def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
-        xs, ys, xvs, yvs = boids
+        positions_x, positions_y, xvs, yvs = boids
         # Fly towards the middle
-        x_move_to_middle = (np.mean(xs) - xs) * move_to_middle_strength
-        y_move_to_middle = (np.mean(ys) - ys) * move_to_middle_strength
+        x_move_to_middle = (np.mean(positions_x) - positions_x) * move_to_middle_strength
+        y_move_to_middle = (np.mean(positions_y) - positions_y) * move_to_middle_strength
         xvs[:] = np.add(xvs, x_move_to_middle)
         yvs[:] = np.add(yvs, y_move_to_middle)
 
@@ -46,7 +46,7 @@ class Boids(object):
         self.separation_distance_squared = self.x_separation ** 2 + self.y_separation ** 2
 
     def fly_away_from_nearby_boids(self,boids,x_separation, y_separation, separation_distance_squared,alert_distance=100):
-        xs, ys, xvs, yvs = boids
+        positions_x, positions_y, xvs, yvs = boids
         birds_outside_alert = separation_distance_squared > alert_distance
         close_x_separations = np.copy(x_separation)
         close_x_separations[:, :][birds_outside_alert] = 0
@@ -59,7 +59,7 @@ class Boids(object):
                                       separation_distance_squared,
                                       formation_flying_distance = 10000,
                                       formation_flying_strength = 0.125):
-        xs, ys, xvs, yvs = boids
+        positions_x, positions_y, xvs, yvs = boids
         birds_outside_formation = separation_distance_squared > formation_flying_distance
         x_velocity_difference = xvs[np.newaxis, :] - xvs[:, np.newaxis]
         y_velocity_difference = yvs[np.newaxis, :] - yvs[:, np.newaxis]
@@ -71,12 +71,12 @@ class Boids(object):
         yvs[:] = np.add(yvs, -1 * np.mean(close_y_formation, 0) * formation_flying_strength)
 
     def update_boids(self, boids):
-        xs, ys, xvs, yvs = boids
+        positions_x, positions_y, xvs, yvs = boids
         # Fly towards the middle
         self.fly_towards_the_middle(boids,self.move_to_middle_strength)
 
         #calculate the separations
-        self.separation(xs,ys)
+        self.separation(positions_x,positions_y)
 
         # Fly away from nearby boids
         self.fly_away_from_nearby_boids(boids,
@@ -91,8 +91,8 @@ class Boids(object):
                                            self.formation_flying_strength)
 
         # Update positions
-        xs[:] = np.add(xs, xvs)
-        ys[:] = np.add(ys, yvs)
+        positions_x[:] = np.add(positions_x, xvs)
+        positions_y[:] = np.add(positions_y, yvs)
 
     def animate(self,frame):
         self.update_boids(self.boids)
@@ -104,7 +104,8 @@ class Boids(object):
 
         figure = plt.figure()
         axes = plt.axes(xlim=xlim, ylim=ylim)
-        self.scatter = axes.scatter(self.boids_x, self.boids_y, s=boidsize, c=colors, alpha=0.5, edgecolors = None)
+        self.scatter = axes.scatter(self.boids_x, self.boids_y,
+                                    s=boidsize, c=colors, alpha=0.5, edgecolors = None)
         anim = animation.FuncAnimation(figure, self.animate,
                                        frames=frames, interval=interval)
         plt.xlabel('x (arbitrary units)')
