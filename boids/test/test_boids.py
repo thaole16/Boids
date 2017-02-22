@@ -63,12 +63,11 @@ def test_match_speed_with_nearby_boids():
     boid_data_after = np.array(data["after"])
     formation_flying_distance = data["formation_flying_distance"]
     formation_flying_strength = data["formation_flying_strength"]
-    separation_distance_squared = np.array(data["separation_distance_squared"])
 
     boids = Boids()
     boids.boids = (boid_data_before[0:2],boid_data_before[2:4])
-    boids.match_speed_with_nearby_boids(boids.boids, separation_distance_squared,formation_flying_distance,formation_flying_strength)
-    np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
+    boids.match_speed_with_nearby_boids(boids.boids, formation_flying_distance,formation_flying_strength)
+    np.testing.assert_array_almost_equal(boids.boids, (boid_data_after[0:2],boid_data_after[2:4]))
 
 def test_update_boids():
     data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures', 'fixture_update_boids_only.yml')))
