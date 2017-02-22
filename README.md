@@ -41,8 +41,9 @@ To install directly:
 1. Download the package
 2. Navigate to the Boids folder where setup.py is located
 3. Run:
-
-    python setup.py install
+```
+python setup.py install
+```
 
 Testing
 -------
@@ -55,15 +56,59 @@ If you want to run the testing, download the package and also run:
 Typical Usage
 =============
 
-This package is called using __boidsflock__.
+This package is called using `boidsflock`.
 
 In order to change the model parameters, a YAML configuration file can be given. For example:
 
     boidsflock --config myconfig.yml
 
+Furthermore, it is possible to save the output animation, in format `--saveto [filename]`. For example,
+
+    boidsflock --saveto animation.mp4
+
+These can be combined.
+
 Configuration Parameters
 ========================
-The yaml configuration file is a nested dictionary (with default values for example):
+
+Boids_Setup
+-----------
+`boid_count`: defines the number of boids in the model
+
+`x_positions`: the lower and upper limits of the initial x positions of the boids
+
+`y_positions`: the lower and upper limits of the initial y position of the boids
+
+`x_velocities`: the lower and upper limits of the initial x (horizontal) velocities of the boids
+
+`y_velocities`: the lower and upper limits of the initial y (vertical) velocities of the boids
+
+
+Flock_Dynamics
+--------------
+`move_to_middle_strength`: the tendency of the boids to fly towards the middle
+
+`alert_distance`: the range within which boids will try to avoid other boids
+
+`formation_flying_distance`: the range within which boids will want to match speed with other boids
+
+`formation_flying_strength`: the tendency of the boids to match their velocity with surrounding boids
+
+
+Axis_Limits
+-----------
+`xlim`: the x (horizontal) bounds of the animation shown on screen
+
+`ylim`: the y (horizontal) bounds of the animation shown on screen
+
+Animation
+---------
+`frames`:  the total number of frames from the animation that will be saved
+
+`interval`: delay between frames (in milliseconds)
+
+
+Here is an example yml configuration file:
 
 ```yaml
 Boids_Setup:
