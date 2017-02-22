@@ -40,27 +40,21 @@ class Boids(object):
         (positions, velocities) = boids
         middle = np.mean(positions,1)
         move_to_middle = (middle[:,np.newaxis] - positions) * move_to_middle_strength
+        velocities += move_to_middle
 
-        (positions_x, positions_y) = np.split(positions, 2)
-        (velocities_x, velocities_y) = np.split(velocities, 2)
+    def separation(self, coords):
+        separations = np.array(coords)[:,np.newaxis,:] - np.array(coords)[:,:,np.newaxis]
+        separation_distance_squared = self.separations[0,:,:] ** 2 + self.separations[1,:,:] ** 2
+        return separations, separation_distance_squared
 
-        velocities_x[:] = np.add(velocities_x, move_to_middle[0,:])
-        velocities_y[:] = np.add(velocities_y, move_to_middle[1,:])
-
-    def separation(self,xcoords, ycoords):
-        self.x_separation = xcoords[np.newaxis, :] - xcoords[:, np.newaxis]
-        self.y_separation = ycoords[np.newaxis, :] - ycoords[:, np.newaxis]
-        self.separation_distance_squared = self.x_separation ** 2 + self.y_separation ** 2
-
-    def fly_away_from_nearby_boids(self,boids,x_separation, y_separation, separation_distance_squared,alert_distance=100):
+    def fly_away_from_nearby_boids(self,boids,alert_distance=100):
         (positions, velocities) = boids
-        (positions_x, positions_y) = np.split(positions, 2)
         (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_alert = separation_distance_squared > alert_distance
-        close_x_separations = np.copy(x_separation)
+        close_x_separations = np.copy(np.array(separations)[0,:,:])
         close_x_separations[:, :][birds_outside_alert] = 0
         velocities_x[:] = np.add(velocities_x, np.sum(close_x_separations, 0))
-        close_y_separations = np.copy(y_separation)
+        close_y_separations = np.copy(np.array(separations)[1,:,:])
         close_y_separations[:, :][birds_outside_alert] = 0
         velocities_y[:] = np.add(velocities_y, np.sum(close_y_separations, 0))
 
@@ -89,12 +83,11 @@ class Boids(object):
         self.fly_towards_the_middle(boids,self.move_to_middle_strength)
 
         #calculate the separations
-        self.separation(positions_x,positions_y)
+        self.separation(positions)
 
         # Fly away from nearby boids
         self.fly_away_from_nearby_boids(boids,
-                                        self.x_separation,
-                                        self.y_separation,
+                                        self.separations,
                                         self.separation_distance_squared,
                                         self.alert_distance)
 
