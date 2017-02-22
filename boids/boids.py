@@ -89,7 +89,7 @@ class Boids(object):
         (positions,velocities) = self.boids
         self.scatter.set_offsets(np.transpose(positions))
 
-    def model(self, xlim=(-500, 1500), ylim=(-500, 1500), frames=50, interval=50, filename=None):
+    def model(self, xlim=(-500, 1500), ylim=(-500, 1500), frames=50, interval=50, savefile=None):
         colors = np.random.rand(self.boid_count)
         boidsize = np.pi * (2 * np.random.rand(self.boid_count)+2) ** 2
 
@@ -103,8 +103,8 @@ class Boids(object):
         plt.ylabel('y (arbitrary units)')
         plt.title("Boids a'Flocking")
 
-        if filename!=None:
-            anim.save(filename)
+        if savefile!=None:
+            anim.save(savefile)
 
         plt.show()
 

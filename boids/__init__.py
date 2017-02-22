@@ -8,7 +8,7 @@ def main():
     defaultconfig = os.path.join(_ROOT, 'config.yml')
     parser = ArgumentParser(description="Boid Flocking Modelling")
     parser.add_argument('--config', '-c', default=defaultconfig, help="Configuration file", metavar="FILE")
-    parser.add_argument('--saveto', '-c', help="Filename to save animation", metavar="FILE")
+    parser.add_argument('--saveto', help="Filename to save animation", metavar="FILE")
     args = parser.parse_args()
 
     try:
