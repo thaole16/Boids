@@ -107,6 +107,7 @@ Animation
 
 `interval`: delay between frames (in milliseconds)
 
+------------
 
 Here is an example yml configuration file:
 
