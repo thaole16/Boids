@@ -50,19 +50,16 @@ class Boids(object):
     def fly_away_from_nearby_boids(self,boids,alert_distance=100):
         (positions, velocities) = boids
         separations, separation_distance_squared = self.separation(positions)
-
-        (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_alert = separation_distance_squared > alert_distance
         close_separations = np.copy(separations)
         close_separations[:,:,:][birds_outside_alert] = 0
         velocities += np.sum(close_separations,0)
 
     def match_speed_with_nearby_boids(self,boids,
-                                      separation_distance_squared,
                                       formation_flying_distance = 10000,
                                       formation_flying_strength = 0.125):
         (positions, velocities) = boids
-        (positions_x, positions_y) = np.split(positions, 2)
+        separations, separation_distance_squared = self.separation(positions)
         (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_formation = separation_distance_squared > formation_flying_distance
         x_velocity_difference = velocities_x[np.newaxis, :] - velocities_x[:, np.newaxis]
@@ -81,17 +78,12 @@ class Boids(object):
         # Fly towards the middle
         self.fly_towards_the_middle(boids,self.move_to_middle_strength)
 
-        #calculate the separations
-        self.separation(positions)
 
         # Fly away from nearby boids
-        self.fly_away_from_nearby_boids(boids,
-                                        self.separations,
-                                        self.separation_distance_squared,
-                                        self.alert_distance)
+        self.fly_away_from_nearby_boids(boids, self.alert_distance)
 
         # Try to match speed with nearby boids
-        self.match_speed_with_nearby_boids(boids, self.separation_distance_squared,
+        self.match_speed_with_nearby_boids(boids,
                                            self.formation_flying_distance,
                                            self.formation_flying_strength)
 
