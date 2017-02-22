@@ -20,6 +20,7 @@ class Boids(object):
                  formation_flying_distance = 10000,
                  formation_flying_strength = 0.125):
 
+        self.boid_count = boid_count
         self.move_to_middle_strength = move_to_middle_strength
         self.alert_distance = alert_distance
         self.formation_flying_distance = formation_flying_distance
@@ -98,11 +99,18 @@ class Boids(object):
         self.scatter.set_offsets(zip(self.boids_x, self.boids_y))
 
     def model(self, xlim=(-500, 1500), ylim=(-500, 1500), frames=50, interval=50):
+        colors = np.random.rand(self.boid_count)
+        boidsize = np.pi * (2 * np.random.rand(self.boid_count)+2) ** 2
+
         figure = plt.figure()
         axes = plt.axes(xlim=xlim, ylim=ylim)
-        self.scatter = axes.scatter(self.boids_x, self.boids_y)
+        self.scatter = axes.scatter(self.boids_x, self.boids_y, s=boidsize, c=colors, alpha=0.5, edgecolors = None)
         anim = animation.FuncAnimation(figure, self.animate,
                                        frames=frames, interval=interval)
+        plt.xlabel('x (arbitrary units)')
+        plt.ylabel('y (arbitrary units)')
+        plt.title("Boids a'Flocking")
+
         plt.show()
 
 if __name__ == "__main__":
