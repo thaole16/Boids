@@ -36,7 +36,9 @@ class Boids(object):
         self.boids = (self.positions, self.velocities)
 
     def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
-        positions_x, positions_y, velocities_x, velocities_y = boids
+        (positions, velocities) = boids
+        (positions_x, positions_y) = np.split(positions, 2)
+        (velocities_x, velocities_y) = np.split(velocities, 2)
         # Fly towards the middle
         x_move_to_middle = (np.mean(positions_x) - positions_x) * move_to_middle_strength
         y_move_to_middle = (np.mean(positions_y) - positions_y) * move_to_middle_strength
@@ -49,7 +51,9 @@ class Boids(object):
         self.separation_distance_squared = self.x_separation ** 2 + self.y_separation ** 2
 
     def fly_away_from_nearby_boids(self,boids,x_separation, y_separation, separation_distance_squared,alert_distance=100):
-        positions_x, positions_y, velocities_x, velocities_y = boids
+        (positions, velocities) = boids
+        (positions_x, positions_y) = np.split(positions, 2)
+        (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_alert = separation_distance_squared > alert_distance
         close_x_separations = np.copy(x_separation)
         close_x_separations[:, :][birds_outside_alert] = 0
@@ -62,7 +66,9 @@ class Boids(object):
                                       separation_distance_squared,
                                       formation_flying_distance = 10000,
                                       formation_flying_strength = 0.125):
-        positions_x, positions_y, velocities_x, velocities_y = boids
+        (positions, velocities) = boids
+        (positions_x, positions_y) = np.split(positions, 2)
+        (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_formation = separation_distance_squared > formation_flying_distance
         x_velocity_difference = velocities_x[np.newaxis, :] - velocities_x[:, np.newaxis]
         y_velocity_difference = velocities_y[np.newaxis, :] - velocities_y[:, np.newaxis]
@@ -74,7 +80,9 @@ class Boids(object):
         velocities_y[:] = np.add(velocities_y, -1 * np.mean(close_y_formation, 0) * formation_flying_strength)
 
     def update_boids(self, boids):
-        positions_x, positions_y, velocities_x, velocities_y = boids
+        (positions,velocities) = boids
+        (positions_x, positions_y) = np.split(positions,2)
+        (velocities_x, velocities_y) = np.split(velocities,2)
         # Fly towards the middle
         self.fly_towards_the_middle(boids,self.move_to_middle_strength)
 
@@ -99,7 +107,9 @@ class Boids(object):
 
     def animate(self,frame):
         self.update_boids(self.boids)
-        self.scatter.set_offsets(zip(self.boids_x, self.boids_y))
+        (positions,velocities) = self.boids
+        self.scatter.set_offsets(np.transpose(positions))
+        #self.scatter.set_offsets(zip(self.boids[0,0,:], self.boids[0,1,:]))
 
     def model(self, xlim=(-500, 1500), ylim=(-500, 1500), frames=50, interval=50):
         colors = np.random.rand(self.boid_count)
