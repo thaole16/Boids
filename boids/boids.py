@@ -52,8 +52,9 @@ class Boids(object):
         separations, separation_distance_squared = self.separation(positions)
         birds_outside_alert = separation_distance_squared > alert_distance
         close_separations = np.copy(separations)
-        close_separations[:,:,:][birds_outside_alert] = 0
-        velocities += np.sum(close_separations,0)
+        close_separations[0,:,:][birds_outside_alert] = 0 #x positions
+        close_separations[1,:,:][birds_outside_alert] = 0 #y positions
+        velocities += np.sum(close_separations,1)
 
     def match_speed_with_nearby_boids(self,boids,
                                       formation_flying_distance = 10000,
