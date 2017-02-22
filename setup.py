@@ -19,9 +19,11 @@ setup(
 
     install_requires=['argparse','numpy','matplotlib','pyyaml'],
 
-    test_requires = ['nose','mock'],
+    test_requires=['nose','mock'],
 
     test_suite="nose.collector",
+
+    include_package_data=True,
 
     license="MIT",
 

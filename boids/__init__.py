@@ -1,10 +1,13 @@
 from boids import Boids
 from argparse import ArgumentParser
 import yaml
+import os
 
 def main():
+    _ROOT = os.path.abspath(os.path.dirname(__file__))
+    defaultconfig = os.path.join(_ROOT, 'config.yml')
     parser = ArgumentParser(description="Boid Flocking Modelling")
-    parser.add_argument('--config', '-c', default='config.yml', help="Configuration file", metavar="FILE")
+    parser.add_argument('--config', '-c', default=defaultconfig, help="Configuration file", metavar="FILE")
     args = parser.parse_args()
 
     try:
