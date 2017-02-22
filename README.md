@@ -27,7 +27,7 @@ The original boids code is taken from the
 Requirements
 =========================
 
-This package runs on Python 2.7.
+This package runs on **Python 2.7**.
 
 Installation Instructions
 =========================
@@ -44,18 +44,22 @@ To install directly:
 
     python setup.py install
 
-If you want to run the testing, also run:
+Testing
+-------
+
+If you want to run the testing, download the package and also run:
 
     python setup.py test
+
 
 Typical Usage
 =============
 
 This package is called using __boidsflock__.
 
-To use, a YAML configuration file is required. A default one is given (config.yml). For example:
+In order to change the model parameters, a YAML configuration file can be given. For example:
 
-    boidsflock --config config.yml
+    boidsflock --config myconfig.yml
 
 Configuration Parameters
 ========================
