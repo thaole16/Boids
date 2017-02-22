@@ -28,10 +28,10 @@ def test_fly_towards_the_middle():
     move_to_middle_strength = data["move_to_middle_strength"]
 
     boids = Boids()
-    boids.boids = boid_data_before
-    boids.fly_towards_the_middle(boid_data_before, move_to_middle_strength)
+    boids.boids = (boid_data_before[0:2],boid_data_before[2:4])
+    boids.fly_towards_the_middle(boids.boids, move_to_middle_strength)
 
-    np.testing.assert_array_almost_equal(boids.boids,boid_data_after)
+    np.testing.assert_array_almost_equal(boids.boids,(boid_data_after[0:2],boid_data_after[2:4]))
 
 def test_separation():
     data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_separation.yml')))
@@ -53,7 +53,7 @@ def test_fly_away_from_nearby_boids():
     boid_data_after = np.array(data["after"])
     alert_distance = data["alert_distance"]
     boids = Boids()
-    boids.boids = boid_data_before
+    boids.boids =(boid_data_before[0:2],boid_data_before[2:4])
     boids.separation(boid_data_before[0],boid_data_before[1])
 
     boids.fly_away_from_nearby_boids(boids.boids, boids.x_separation, boids.y_separation,
@@ -69,7 +69,7 @@ def test_match_speed_with_nearby_boids():
     separation_distance_squared = np.array(data["separation_distance_squared"])
 
     boids = Boids()
-    boids.boids = boid_data_before
+    boids.boids = (boid_data_before[0:2],boid_data_before[2:4])
     boids.match_speed_with_nearby_boids(boids.boids, separation_distance_squared,formation_flying_distance,formation_flying_strength)
     np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
 
@@ -79,7 +79,7 @@ def test_update_boids():
     boid_data_after = np.array(data["after"])
     boid_count = data["boid_count"]
     boids = Boids(boid_count = boid_count)
-    boids.boids = boid_data_before
+    boids.boids = (boid_data_before[0:2],boid_data_before[2:4])
     with patch.object(boids,'fly_towards_the_middle') as mocked1:
         with patch.object(boids, 'fly_away_from_nearby_boids') as mocked2:
             with patch.object(boids,'match_speed_with_nearby_boids') as mocked3:
