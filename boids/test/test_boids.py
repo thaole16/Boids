@@ -41,11 +41,10 @@ def test_separation():
     y_separation = np.array(data["y_separation"])
     separation_distance_squared = np.array(data["separation_distance_squared"])
     boids = Boids(boid_count = 2)
-    boids.separation((xcoords, ycoords))
+    calc_separations, calc_separation_distance_squared = boids.separation((xcoords, ycoords))
 
-    np.testing.assert_array_almost_equal(boids.x_separation,x_separation)
-    np.testing.assert_array_almost_equal(boids.y_separation, y_separation)
-    np.testing.assert_array_almost_equal(boids. separation_distance_squared,  separation_distance_squared)
+    np.testing.assert_array_almost_equal(calc_separations,(x_separation,y_separation))
+    np.testing.assert_array_almost_equal( calc_separation_distance_squared,  separation_distance_squared)
 
 def test_fly_away_from_nearby_boids():
     data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_fly_away_from_nearby_boids.yml')))
