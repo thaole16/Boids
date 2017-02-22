@@ -57,20 +57,17 @@ class Boids(object):
         velocities += np.sum(close_separations,1)
 
     def match_speed_with_nearby_boids(self,boids,
-                                      formation_flying_distance = 10000,
-                                      formation_flying_strength = 0.125):
+                                      formation_flying_distance=10000,
+                                      formation_flying_strength=0.125):
         (positions, velocities) = boids
         separations, separation_distance_squared = self.separation(positions)
         (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_formation = separation_distance_squared > formation_flying_distance
-        x_velocity_difference = velocities_x[np.newaxis, :] - velocities_x[:, np.newaxis]
-        y_velocity_difference = velocities_y[np.newaxis, :] - velocities_y[:, np.newaxis]
-        close_x_formation = np.copy(x_velocity_difference)
-        close_y_formation = np.copy(y_velocity_difference)
-        close_x_formation[:, :][birds_outside_formation] = 0
-        close_y_formation[:, :][birds_outside_formation] = 0
-        velocities_x[:] = np.add(velocities_x, -1 * np.mean(close_x_formation, 0) * formation_flying_strength)
-        velocities_y[:] = np.add(velocities_y, -1 * np.mean(close_y_formation, 0) * formation_flying_strength)
+        velocity_difference = velocities[:, np.newaxis, :] - velocities[:,:, np.newaxis]
+        close_formation = np.copy(velocity_difference)
+        close_formation[0, :, :][birds_outside_formation] = 0
+        close_formation[1,:, :][birds_outside_formation] = 0
+        velocities += -1 * np.mean(close_formation, 1) * formation_flying_strength
 
     def update_boids(self, boids):
         (positions,velocities) = boids
