@@ -71,23 +71,18 @@ class Boids(object):
 
     def update_boids(self, boids):
         (positions,velocities) = boids
-        (positions_x, positions_y) = np.split(positions,2)
-        (velocities_x, velocities_y) = np.split(velocities,2)
+
         # Fly towards the middle
         self.fly_towards_the_middle(boids,self.move_to_middle_strength)
-
 
         # Fly away from nearby boids
         self.fly_away_from_nearby_boids(boids, self.alert_distance)
 
         # Try to match speed with nearby boids
-        self.match_speed_with_nearby_boids(boids,
-                                           self.formation_flying_distance,
-                                           self.formation_flying_strength)
+        self.match_speed_with_nearby_boids(boids, self.formation_flying_distance, self.formation_flying_strength)
 
         # Update positions
-        positions_x[:] = np.add(positions_x, velocities_x)
-        positions_y[:] = np.add(positions_y, velocities_y)
+        positions += velocities
 
     def animate(self,frame):
         self.update_boids(self.boids)
