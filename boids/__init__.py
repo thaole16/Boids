@@ -7,7 +7,7 @@ def main():
     _ROOT = os.path.abspath(os.path.dirname(__file__))
     defaultconfig = os.path.join(_ROOT, 'config.yml')
     parser = ArgumentParser(description="Boid Flocking Modelling")
-    parser.add_argument('--config', '-c', default=defaultconfig, help="Configuration file", metavar="FILE")
+    parser.add_argument('--config', default=defaultconfig, help="Configuration file", metavar="FILE")
     parser.add_argument('--saveto', help="Filename to save animation", metavar="FILE")
     args = parser.parse_args()
 
@@ -34,21 +34,20 @@ def main():
 
             saveto = args.saveto #works even if it is None
 
-
-            boidsobject = Boids(boid_count = boid_count,
-                                x_positions = x_positions,
-                                y_positions = y_positions,
-                                x_velocities = x_velocities,
-                                y_velocities = y_velocities,
+            boidsobject = Boids(boid_count=boid_count,
+                                x_positions=x_positions,
+                                y_positions=y_positions,
+                                x_velocities=x_velocities,
+                                y_velocities=y_velocities,
                                 move_to_middle_strength=move_to_middle_strength,
-                                alert_distance = alert_distance,
-                                formation_flying_distance = formation_flying_distance,
-                                formation_flying_strength = formation_flying_strength)
+                                alert_distance=alert_distance,
+                                formation_flying_distance=formation_flying_distance,
+                                formation_flying_strength=formation_flying_strength)
             boidsobject.model(xlim=xlim,
                               ylim=ylim,
                               frames=frames,
                               interval=interval,
-                              savefile = saveto)
+                              savefile=saveto)
     except IOError as error:
         print('IOError: No such config file')
     except KeyError as error:
