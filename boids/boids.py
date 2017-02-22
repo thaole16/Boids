@@ -28,9 +28,12 @@ class Boids(object):
 
         self.boids_x = np.random.uniform(size=boid_count,*x_positions)
         self.boids_y = np.random.uniform(size=boid_count,*y_positions)
+        self.positions = np.stack((self.boids_x,self.boids_y))
         self.boid_x_velocities = np.random.uniform(size=boid_count, *x_velocities)
         self.boid_y_velocities = np.random.uniform(size=boid_count, *y_velocities)
-        self.boids = (self.boids_x, self.boids_y, self.boid_x_velocities, self.boid_y_velocities)
+        self.velocities = np.stack((self.boid_x_velocities,self.boid_y_velocities))
+
+        self.boids = (self.positions, self.velocities)
 
     def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
         positions_x, positions_y, velocities_x, velocities_y = boids
