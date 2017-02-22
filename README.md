@@ -34,16 +34,18 @@ Installation Instructions
 
 To install via pip:
 
-    pip install git+https://github.com/thaole16/greengraph.git
+    pip install git+https://github.com/thaole16/Boids.git
 
 To install directly:
 
 1. Download the package
 2. Navigate to the Boids folder where setup.py is located
 3. Run:
+
     python setup.py install
 
 If you want to run the testing, also run:
+
     python setup.py test
 
 Typical Usage
