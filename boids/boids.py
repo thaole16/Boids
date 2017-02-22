@@ -33,12 +33,12 @@ class Boids(object):
         self.boids = (self.boids_x, self.boids_y, self.boid_x_velocities, self.boid_y_velocities)
 
     def fly_towards_the_middle(self,boids,move_to_middle_strength = 0.01):
-        positions_x, positions_y, xvs, yvs = boids
+        positions_x, positions_y, velocities_x, velocities_y = boids
         # Fly towards the middle
         x_move_to_middle = (np.mean(positions_x) - positions_x) * move_to_middle_strength
         y_move_to_middle = (np.mean(positions_y) - positions_y) * move_to_middle_strength
-        xvs[:] = np.add(xvs, x_move_to_middle)
-        yvs[:] = np.add(yvs, y_move_to_middle)
+        velocities_x[:] = np.add(velocities_x, x_move_to_middle)
+        velocities_y[:] = np.add(velocities_y, y_move_to_middle)
 
     def separation(self,xcoords, ycoords):
         self.x_separation = xcoords[np.newaxis, :] - xcoords[:, np.newaxis]
@@ -46,32 +46,32 @@ class Boids(object):
         self.separation_distance_squared = self.x_separation ** 2 + self.y_separation ** 2
 
     def fly_away_from_nearby_boids(self,boids,x_separation, y_separation, separation_distance_squared,alert_distance=100):
-        positions_x, positions_y, xvs, yvs = boids
+        positions_x, positions_y, velocities_x, velocities_y = boids
         birds_outside_alert = separation_distance_squared > alert_distance
         close_x_separations = np.copy(x_separation)
         close_x_separations[:, :][birds_outside_alert] = 0
-        xvs[:] = np.add(xvs, np.sum(close_x_separations, 0))
+        velocities_x[:] = np.add(velocities_x, np.sum(close_x_separations, 0))
         close_y_separations = np.copy(y_separation)
         close_y_separations[:, :][birds_outside_alert] = 0
-        yvs[:] = np.add(yvs, np.sum(close_y_separations, 0))
+        velocities_y[:] = np.add(velocities_y, np.sum(close_y_separations, 0))
 
     def match_speed_with_nearby_boids(self,boids,
                                       separation_distance_squared,
                                       formation_flying_distance = 10000,
                                       formation_flying_strength = 0.125):
-        positions_x, positions_y, xvs, yvs = boids
+        positions_x, positions_y, velocities_x, velocities_y = boids
         birds_outside_formation = separation_distance_squared > formation_flying_distance
-        x_velocity_difference = xvs[np.newaxis, :] - xvs[:, np.newaxis]
-        y_velocity_difference = yvs[np.newaxis, :] - yvs[:, np.newaxis]
+        x_velocity_difference = velocities_x[np.newaxis, :] - velocities_x[:, np.newaxis]
+        y_velocity_difference = velocities_y[np.newaxis, :] - velocities_y[:, np.newaxis]
         close_x_formation = np.copy(x_velocity_difference)
         close_y_formation = np.copy(y_velocity_difference)
         close_x_formation[:, :][birds_outside_formation] = 0
         close_y_formation[:, :][birds_outside_formation] = 0
-        xvs[:] = np.add(xvs, -1 * np.mean(close_x_formation, 0) * formation_flying_strength)
-        yvs[:] = np.add(yvs, -1 * np.mean(close_y_formation, 0) * formation_flying_strength)
+        velocities_x[:] = np.add(velocities_x, -1 * np.mean(close_x_formation, 0) * formation_flying_strength)
+        velocities_y[:] = np.add(velocities_y, -1 * np.mean(close_y_formation, 0) * formation_flying_strength)
 
     def update_boids(self, boids):
-        positions_x, positions_y, xvs, yvs = boids
+        positions_x, positions_y, velocities_x, velocities_y = boids
         # Fly towards the middle
         self.fly_towards_the_middle(boids,self.move_to_middle_strength)
 
@@ -91,8 +91,8 @@ class Boids(object):
                                            self.formation_flying_strength)
 
         # Update positions
-        positions_x[:] = np.add(positions_x, xvs)
-        positions_y[:] = np.add(positions_y, yvs)
+        positions_x[:] = np.add(positions_x, velocities_x)
+        positions_y[:] = np.add(positions_y, velocities_y)
 
     def animate(self,frame):
         self.update_boids(self.boids)
