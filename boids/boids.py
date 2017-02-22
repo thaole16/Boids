@@ -44,19 +44,18 @@ class Boids(object):
 
     def separation(self, coords):
         separations = np.array(coords)[:,np.newaxis,:] - np.array(coords)[:,:,np.newaxis]
-        separation_distance_squared = self.separations[0,:,:] ** 2 + self.separations[1,:,:] ** 2
+        separation_distance_squared = separations[0,:,:] ** 2 + separations[1,:,:] ** 2
         return separations, separation_distance_squared
 
     def fly_away_from_nearby_boids(self,boids,alert_distance=100):
         (positions, velocities) = boids
+        separations, separation_distance_squared = self.separation(positions)
+
         (velocities_x, velocities_y) = np.split(velocities, 2)
         birds_outside_alert = separation_distance_squared > alert_distance
-        close_x_separations = np.copy(np.array(separations)[0,:,:])
-        close_x_separations[:, :][birds_outside_alert] = 0
-        velocities_x[:] = np.add(velocities_x, np.sum(close_x_separations, 0))
-        close_y_separations = np.copy(np.array(separations)[1,:,:])
-        close_y_separations[:, :][birds_outside_alert] = 0
-        velocities_y[:] = np.add(velocities_y, np.sum(close_y_separations, 0))
+        close_separations = np.copy(separations)
+        close_separations[:,:,:][birds_outside_alert] = 0
+        velocities += np.sum(close_separations,0)
 
     def match_speed_with_nearby_boids(self,boids,
                                       separation_distance_squared,
