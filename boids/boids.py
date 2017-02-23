@@ -84,7 +84,7 @@ class Boids(object):
         # Update positions
         positions += velocities
 
-    def animate(self,frame):
+    def _animate(self,frame):
         self.update_boids(self.boids)
         (positions,velocities) = self.boids
         self.scatter.set_offsets(np.transpose(positions))
@@ -97,7 +97,7 @@ class Boids(object):
         axes = plt.axes(xlim=xlim, ylim=ylim)
         self.scatter = axes.scatter(self.boids_x, self.boids_y,
                                     s=boidsize, c=colors, alpha=0.5, edgecolors = None)
-        anim = animation.FuncAnimation(figure, self.animate,
+        anim = animation.FuncAnimation(figure, self._animate,
                                        frames=frames, interval=interval)
         plt.xlabel('x (arbitrary units)')
         plt.ylabel('y (arbitrary units)')
