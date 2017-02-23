@@ -10,17 +10,13 @@ import numpy as np
 from mock import patch
 
 def test_Boids():
-    boidobject = Boids()
-    assert_equals(boidobject.boids_x.size, 50)
-    assert_equals(boidobject.boids_y.size, 50)
-    assert_equals(boidobject.boid_x_velocities.size, 50)
-    assert_equals(boidobject.boid_y_velocities.size, 50)
 
-    boidobject = Boids(boid_count = 2)
-    assert_equals(boidobject.boids_x.size, 2)
-    assert_equals(boidobject.boids_y.size, 2)
-    assert_equals(boidobject.boid_x_velocities.size, 2)
-    assert_equals(boidobject.boid_y_velocities.size, 2)
+    for boid_count in (10,2):
+        boidobject = Boids(boid_count=boid_count)
+        assert_equals(boidobject.boids_x.size, boid_count)
+        assert_equals(boidobject.boids_y.size, boid_count)
+        assert_equals(boidobject.boid_x_velocities.size, boid_count)
+        assert_equals(boidobject.boid_y_velocities.size, boid_count)
 
     with assert_raises(ValueError):
         boidobject = Boids(boid_count = -2)
