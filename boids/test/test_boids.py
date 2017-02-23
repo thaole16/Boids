@@ -1,3 +1,7 @@
+"""
+Unit testing for the functions in the Boids class
+"""
+
 from boids import Boids
 from nose.tools import assert_equals, assert_raises
 import os
@@ -81,3 +85,4 @@ def test_update_boids():
             with patch.object(boids,'match_speed_with_nearby_boids') as mocked3:
                 boids.update_boids(boids.boids)
                 np.testing.assert_almost_equal(boids.boids, boid_data_after)
+
