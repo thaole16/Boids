@@ -1,6 +1,6 @@
 """
-A deliberately bad implementation of [Boids](http://dl.acm.org/citation.cfm?doid=37401.37406)
-for use as an exercise on refactoring.
+A refactored implementation of Boids from a deliberately bad implementation of
+[Boids](http://dl.acm.org/citation.cfm?doid=37401.37406): an exercise for class.
 """
 
 from matplotlib import pyplot as plt
