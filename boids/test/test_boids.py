@@ -52,10 +52,10 @@ def test_fly_away_from_nearby_boids():
     boid_data_after = np.array(data["after"])
     alert_distance = data["alert_distance"]
     boids = Boids()
-    boids.boids =(boid_data_before[0:2],boid_data_before[2:4])
+    boids.boids = boid_data_before
 
     boids.fly_away_from_nearby_boids(boids.boids, alert_distance)
-    np.testing.assert_array_almost_equal(boids.boids, (boid_data_after[0:2],boid_data_after[2:4]))
+    np.testing.assert_array_almost_equal(boids.boids, boid_data_after)
 
 def test_match_speed_with_nearby_boids():
     data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_match_speed_with_nearby_boids.yml')))

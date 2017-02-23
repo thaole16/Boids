@@ -17,7 +17,6 @@ fixture_file.close()
 
 boids = Boids()
 before=deepcopy(boids.boids)
-boids.separation(before[0],before[1])
 alert_distance = 100
 boids.fly_away_from_nearby_boids(boids.boids,alert_distance)
 after= boids.boids
