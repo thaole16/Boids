@@ -28,10 +28,10 @@ def test_fly_towards_the_middle():
     move_to_middle_strength = data["move_to_middle_strength"]
 
     boids = Boids()
-    boids.boids = (boid_data_before[0:2],boid_data_before[2:4])
+    boids.boids = boid_data_before
     boids.fly_towards_the_middle(boids.boids, move_to_middle_strength)
 
-    np.testing.assert_array_almost_equal(boids.boids,(boid_data_after[0:2],boid_data_after[2:4]))
+    np.testing.assert_array_almost_equal(boids.boids,boid_data_after)
 
 def test_separation():
     data = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures','fixture_separation.yml')))
