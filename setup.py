@@ -19,7 +19,7 @@ setup(
 
     install_requires=['argparse','numpy','matplotlib','pyyaml'],
 
-    test_requires=['nose','mock'],
+    tests_require=['nose','mock'],
 
     test_suite="nose.collector",
 
@@ -30,7 +30,11 @@ setup(
     classifiers=[
         'License :: MIT License',
         'Intended Audience :: MPHYG001 Markers',
+        'Operating System :: Microsoft :: Windows',
         'Programming Language :: Python :: 2.7',
+    ],
 
+    keywords=[
+        'boids', 'flocking', 'birds',
     ]
 )
