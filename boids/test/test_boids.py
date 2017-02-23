@@ -40,7 +40,7 @@ def test_separation():
     x_separation = np.array(data["x_separation"])
     y_separation = np.array(data["y_separation"])
     separation_distance_squared = np.array(data["separation_distance_squared"])
-    boids = Boids(boid_count = 2)
+    boids = Boids(boid_count = data["boid_count"])
     calc_separations, calc_separation_distance_squared = boids.separation((xcoords, ycoords))
 
     np.testing.assert_array_almost_equal(calc_separations,(x_separation,y_separation))

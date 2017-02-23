@@ -1,3 +1,4 @@
+boid_count: 2
 xcoords: [0, 1]
 ycoords: [0, 1]
 x_separation:
