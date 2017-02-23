@@ -75,9 +75,9 @@ def test_update_boids():
     boid_data_after = np.array(data["after"])
     boid_count = data["boid_count"]
     boids = Boids(boid_count = boid_count)
-    boids.boids = (boid_data_before[0:2],boid_data_before[2:4])
+    boids.boids = boid_data_before
     with patch.object(boids,'fly_towards_the_middle') as mocked1:
         with patch.object(boids, 'fly_away_from_nearby_boids') as mocked2:
             with patch.object(boids,'match_speed_with_nearby_boids') as mocked3:
                 boids.update_boids(boids.boids)
-                np.testing.assert_almost_equal(boids.boids, (boid_data_after[0:2],boid_data_after[2:4]))
+                np.testing.assert_almost_equal(boids.boids, boid_data_after)
