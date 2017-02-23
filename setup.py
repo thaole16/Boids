@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="Boids",
 
-    version="1.0.0",
+    version="1.0.1",
 
     description="Boid flocking",
     long_description=open('README.md').read(),
