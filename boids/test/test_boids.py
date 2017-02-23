@@ -11,12 +11,16 @@ from mock import patch
 
 
 def test_Boids():
+    maxlim = 100
+    minlim = -100
+    lims = [minlim,maxlim]
     for boid_count in (10, 2):
-        boidobject = Boids(boid_count=boid_count)
+        boidobject = Boids(boid_count=boid_count,x_positions=lims)
         assert_equals(boidobject.boids_x.size, boid_count)
         assert_equals(boidobject.boids_y.size, boid_count)
         assert_equals(boidobject.boid_x_velocities.size, boid_count)
         assert_equals(boidobject.boid_y_velocities.size, boid_count)
+        assert (boidobject.boids_x>=minlim).all() and (boidobject.boids_x<=maxlim).all()
 
     with assert_raises(ValueError):
         boidobject = Boids(boid_count=-2)
